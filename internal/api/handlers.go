@@ -42,13 +42,20 @@ func CreateShortLinkHandler(linkService *services.LinkService) gin.HandlerFunc {
     return func(c *gin.Context) {
         var req CreateLinkRequest
         if err := c.ShouldBindJSON(&req); err != nil {
-            c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+            c.JSON(http.StatusBadRequest, gin.H{
+                "error":   "Invalid request",
+                "message": err.Error(),
+            })
             return
         }
 
         link, err := linkService.CreateLink(req.LongURL)
         if err != nil {
-            c.JSON(http.StatusInternalServerError, gin.H{"error": "Erreur lors de la création du lien"})
+            log.Printf("Error creating link: %v", err)
+            c.JSON(http.StatusInternalServerError, gin.H{
+                "error":   "Internal server error",
+                "message": "Failed to create short link",
+            })
             return
         }
 
@@ -68,11 +75,17 @@ func RedirectHandler(linkService *services.LinkService) gin.HandlerFunc {
         link, err := linkService.GetLinkByShortCode(shortCode)
         if err != nil {
             if errors.Is(err, gorm.ErrRecordNotFound) {
-                c.JSON(http.StatusNotFound, gin.H{"error": "Lien introuvable"})
+                c.JSON(http.StatusNotFound, gin.H{
+                    "error":   "Link not found",
+                    "message": "The requested short link does not exist",
+                })
                 return
             }
             log.Printf("Error retrieving link for %s: %v", shortCode, err)
-            c.JSON(http.StatusInternalServerError, gin.H{"error": "Erreur interne"})
+            c.JSON(http.StatusInternalServerError, gin.H{
+                "error":   "Internal server error",
+                "message": "Failed to retrieve link",
+            })
             return
         }
 
@@ -102,10 +115,17 @@ func GetLinkStatsHandler(linkService *services.LinkService) gin.HandlerFunc {
         link, totalClicks, err := linkService.GetLinkStats(shortCode)
         if err != nil {
             if errors.Is(err, gorm.ErrRecordNotFound) {
-                c.JSON(http.StatusNotFound, gin.H{"error": "Lien introuvable"})
+                c.JSON(http.StatusNotFound, gin.H{
+                    "error":   "Link not found",
+                    "message": "The requested short link does not exist",
+                })
                 return
             }
-            c.JSON(http.StatusInternalServerError, gin.H{"error": "Erreur interne"})
+            log.Printf("Error retrieving stats for %s: %v", shortCode, err)
+            c.JSON(http.StatusInternalServerError, gin.H{
+                "error":   "Internal server error",
+                "message": "Failed to retrieve statistics",
+            })
             return
         }
 
