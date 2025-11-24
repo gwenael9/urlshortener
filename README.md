@@ -1,5 +1,36 @@
 # TP Go Final : URL Shortener
 
+
+### Contributeurs
+
+Merci à toutes les personnes qui ont contribué à ce projet ! 🎉
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/gwenael9">
+        <sub><b>Gwenael Guého</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/VoutsaStevie">
+        <sub><b>Voutsa Stevie</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/norab0">
+        <sub><b>Nora</b></sub>
+      </a>
+    </td>
+      <td align="center">
+      <a href="https://github.com/iimAtomic">
+        <sub><b>VEGBA Lux</b></sub> 
+      </a>
+    </td>
+  </tr>
+</table>
+
+
 ## Objectif du Projet
 
 Ce TP vous met au défi de construire un service web performant de raccourcissement et de gestion d'URLs en Go. Votre application permettra de transformer une URL longue en une URL courte et unique. Chaque fois qu'une URL courte est visitée, le système redirigera instantanément l'utilisateur vers l'URL originale tout en enregistrant le clic de manière asynchrone, pour ne jamais ralentir la redirection.
@@ -241,32 +272,3 @@ Ctrl + C
 ```
 
 Tu verras des logs confirmant l'arrêt propre du serveur.
-
-### Contributeurs
-
-Merci à toutes les personnes qui ont contribué à ce projet ! 🎉
-
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/gwenael9">
-        <sub><b>Gwenael Guého</b></sub>
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/VoutsaStevie">
-        <sub><b>Voutsa Stevie</b></sub>
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/norab0">
-        <sub><b>Nora</b></sub>
-      </a>
-    </td>
-      <td align="center">
-      <a href="https://github.com/iimAtomic">
-        <sub><b>VEGBA Lux</b></sub> 
-      </a>
-    </td>
-  </tr>
-</table>
