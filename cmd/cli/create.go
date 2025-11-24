@@ -17,6 +17,11 @@ import (
 // TODO : Faire une variable longURLFlag qui stockera la valeur du flag --url
 var longURLFlag string
 
+var RootCmd = &cobra.Command{
+	Use:   "url-shortener",
+	Short: "Outil CLI pour raccourcir des URLs et consulter leurs statistiques.",
+}
+
 // CreateCmd représente la commande 'create'
 var CreateCmd = &cobra.Command{
 	Use:   "create",
@@ -48,7 +53,7 @@ Exemple:
 		}
 
 		// TODO : Initialiser la connexion à la base de données SQLite.
-		db, err := gorm.Open(sqlite.Open(cfg.Database.Path), &gorm.Config{})
+		db, err := gorm.Open(sqlite.Open(cfg.Database.Name), &gorm.Config{})
 		if err != nil {
 			log.Fatalf("FATAL : impossible d'ouvrir la base SQLite : %v", err)
 		}

@@ -10,12 +10,13 @@ import (
 	"github.com/axellelanca/urlshortener/internal/services"
 	"github.com/spf13/cobra"
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 	"gorm.io/driver/sqlite"
 )
 
 // TODO : variable shortCodeFlag qui stockera la valeur du flag --code
 var shortCodeFlag string
+
+
 
 // StatsCmd représente la commande 'stats'
 var StatsCmd = &cobra.Command{
@@ -42,7 +43,7 @@ Exemple:
 		}
 
 		// TODO 3: Initialiser la connexion à la BDD.
-		db, err := gorm.Open(sqlite.Open(cfg.Database.Path), &gorm.Config{})
+		db, err := gorm.Open(sqlite.Open(cfg.Database.Name), &gorm.Config{})
 		if err != nil {
 			log.Fatalf("FATAL : impossible d'ouvrir la base SQLite : %v", err)
 		}
