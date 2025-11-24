@@ -42,13 +42,29 @@ func CreateShortLinkHandler(linkService *services.LinkService) gin.HandlerFunc {
     return func(c *gin.Context) {
         var req CreateLinkRequest
         if err := c.ShouldBindJSON(&req); err != nil {
-            c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+            c.JSON(http.StatusBadRequest, gin.H{
+                "error":   "Invalid request",
+                "message": err.Error(),
+            })
+            return
+        }
+
+        // Validation de la longueur de l'URL
+        if len(req.LongURL) > 2048 {
+            c.JSON(http.StatusBadRequest, gin.H{
+                "error":   "Invalid URL",
+                "message": "URL is too long (maximum 2048 characters)",
+            })
             return
         }
 
         link, err := linkService.CreateLink(req.LongURL)
         if err != nil {
-            c.JSON(http.StatusInternalServerError, gin.H{"error": "Erreur lors de la création du lien"})
+            log.Printf("Error creating link: %v", err)
+            c.JSON(http.StatusInternalServerError, gin.H{
+                "error":   "Internal server error",
+                "message": "Failed to create short link",
+            })
             return
         }
 
@@ -56,6 +72,7 @@ func CreateShortLinkHandler(linkService *services.LinkService) gin.HandlerFunc {
             "short_code":     link.ShortCode,
             "long_url":       link.LongURL,
             "full_short_url": "http://localhost:8080/" + link.ShortCode,
+            "created_at":     link.CreatedAt,
         })
     }
 }
@@ -65,14 +82,29 @@ func RedirectHandler(linkService *services.LinkService) gin.HandlerFunc {
     return func(c *gin.Context) {
         shortCode := c.Param("shortCode")
 
+        // Validation du shortCode
+        if len(shortCode) == 0 || len(shortCode) > 10 {
+            c.JSON(http.StatusBadRequest, gin.H{
+                "error":   "Invalid short code",
+                "message": "Short code must be between 1 and 10 characters",
+            })
+            return
+        }
+
         link, err := linkService.GetLinkByShortCode(shortCode)
         if err != nil {
             if errors.Is(err, gorm.ErrRecordNotFound) {
-                c.JSON(http.StatusNotFound, gin.H{"error": "Lien introuvable"})
+                c.JSON(http.StatusNotFound, gin.H{
+                    "error":   "Link not found",
+                    "message": "The requested short link does not exist",
+                })
                 return
             }
             log.Printf("Error retrieving link for %s: %v", shortCode, err)
-            c.JSON(http.StatusInternalServerError, gin.H{"error": "Erreur interne"})
+            c.JSON(http.StatusInternalServerError, gin.H{
+                "error":   "Internal server error",
+                "message": "Failed to retrieve link",
+            })
             return
         }
 
@@ -99,20 +131,37 @@ func GetLinkStatsHandler(linkService *services.LinkService) gin.HandlerFunc {
     return func(c *gin.Context) {
         shortCode := c.Param("shortCode")
 
+        // Validation du shortCode
+        if len(shortCode) == 0 || len(shortCode) > 10 {
+            c.JSON(http.StatusBadRequest, gin.H{
+                "error":   "Invalid short code",
+                "message": "Short code must be between 1 and 10 characters",
+            })
+            return
+        }
+
         link, totalClicks, err := linkService.GetLinkStats(shortCode)
         if err != nil {
             if errors.Is(err, gorm.ErrRecordNotFound) {
-                c.JSON(http.StatusNotFound, gin.H{"error": "Lien introuvable"})
+                c.JSON(http.StatusNotFound, gin.H{
+                    "error":   "Link not found",
+                    "message": "The requested short link does not exist",
+                })
                 return
             }
-            c.JSON(http.StatusInternalServerError, gin.H{"error": "Erreur interne"})
+            log.Printf("Error retrieving stats for %s: %v", shortCode, err)
+            c.JSON(http.StatusInternalServerError, gin.H{
+                "error":   "Internal server error",
+                "message": "Failed to retrieve statistics",
+            })
             return
         }
 
         c.JSON(http.StatusOK, gin.H{
-            "short_code":  link.ShortCode,
+            "short_code":   link.ShortCode,
             "long_url":    link.LongURL,
             "total_clicks": totalClicks,
+            "created_at":   link.CreatedAt,
         })
     }
 }

@@ -45,12 +45,7 @@ func (s *ClickService) GetClicksCountByLinkID(linkID uint) (int, error) {
 
 	count, err := s.clickRepo.CountClicksByLinkID(linkID)
 	if err != nil {
-<<<<<<< HEAD
 		return 0, fmt.Errorf("failed to get clicks count: %w", err)
-=======
-
-		return 0, fmt.Errorf("failed to record clicks: %w", err)
->>>>>>> ff5c45fcd09a9a442a39527d9281710dbc87904e
 	}
 	return count, nil
 }
