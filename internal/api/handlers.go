@@ -72,6 +72,15 @@ func RedirectHandler(linkService *services.LinkService) gin.HandlerFunc {
     return func(c *gin.Context) {
         shortCode := c.Param("shortCode")
 
+        // Validation du shortCode
+        if len(shortCode) == 0 || len(shortCode) > 10 {
+            c.JSON(http.StatusBadRequest, gin.H{
+                "error":   "Invalid short code",
+                "message": "Short code must be between 1 and 10 characters",
+            })
+            return
+        }
+
         link, err := linkService.GetLinkByShortCode(shortCode)
         if err != nil {
             if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -111,6 +120,15 @@ func RedirectHandler(linkService *services.LinkService) gin.HandlerFunc {
 func GetLinkStatsHandler(linkService *services.LinkService) gin.HandlerFunc {
     return func(c *gin.Context) {
         shortCode := c.Param("shortCode")
+
+        // Validation du shortCode
+        if len(shortCode) == 0 || len(shortCode) > 10 {
+            c.JSON(http.StatusBadRequest, gin.H{
+                "error":   "Invalid short code",
+                "message": "Short code must be between 1 and 10 characters",
+            })
+            return
+        }
 
         link, totalClicks, err := linkService.GetLinkStats(shortCode)
         if err != nil {
