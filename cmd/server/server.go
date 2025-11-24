@@ -1,7 +1,6 @@
 package server
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,13 +10,11 @@ import (
 	"time"
 
 	cmd2 "github.com/axellelanca/urlshortener/cmd"
-	"github.com/axellelanca/urlshortener/internal/api"
 	"github.com/axellelanca/urlshortener/internal/models"
 	"github.com/axellelanca/urlshortener/internal/monitor"
 	"github.com/axellelanca/urlshortener/internal/repository"
 	"github.com/axellelanca/urlshortener/internal/services"
 	"github.com/axellelanca/urlshortener/internal/workers"
-	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
 	"gorm.io/driver/sqlite" // Driver SQLite pour GORM
 	"gorm.io/gorm"
@@ -34,17 +31,30 @@ puis lance le serveur HTTP.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// TODO : créer une variable qui stock la configuration chargée globalement via cmd.cfg
 		// Ne pas oublier la gestion d'erreur et faire un fatalF
+		cfg := cmd2.Cfg
+		if cfg == nil {
+			log.Fatal("La configuration n'a pas été chargée correctement.")
+		}
 
 		// TODO : Initialiser la connexion à la bBDD
+		db, err := gorm.Open(sqlite.Open(cfg.Database.Name), &gorm.Config{})
+		if err != nil {
+			log.Fatalf("Erreur de connexion à la base de données : %v", err)
+		}
+		log.Println("Connexion à la base de données établie.")
 
 		// TODO : Initialiser les repositories.
 		// Créez des instances de GormLinkRepository et GormClickRepository.
+		linkRepo := repository.NewLinkRepository(db)
+		clickRepo := repository.NewClickRepository(db)
 
 		// Laissez le log
 		log.Println("Repositories initialisés.")
 
 		// TODO : Initialiser les services métiers.
 		// Créez des instances de LinkService et ClickService, en leur passant les repositories nécessaires.
+		linkService := services.NewLinkService(linkRepo)
+		clickService := services.NewClickService(clickRepo)
 
 		// Laissez le log
 		log.Println("Services métiers initialisés.")
@@ -52,17 +62,20 @@ puis lance le serveur HTTP.`,
 		// TODO : Initialiser le channel ClickEventsChannel (api/handlers) des événements de clic et lancer les workers (StartClickWorkers).
 		// Le channel est bufferisé avec la taille configurée.
 		// Passez le channel et le clickRepo aux workers.
+		clickEventsChannel := make(chan *models.Click, cfg.Workers.Clicks.ChannelBufferSize)
+		workers.StartClickWorkers(cfg.Workers.Clicks.NumberOfWorkers, clickEventsChannel, clickService)
 
 		// TODO : Remplacer les XXX par les bonnes variables
 		log.Printf("Channel d'événements de clic initialisé avec un buffer de %d. %d worker(s) de clics démarré(s).",
-			XXX, XXX)
+			cfg.Workers.Clicks.ChannelBufferSize, cfg.Workers.Clicks.NumberOfWorkers)
 
 		// TODO : Initialiser et lancer le moniteur d'URLs.
 		// Utilisez l'intervalle configuré
-		monitorInterval := time.Duration(XXX) * time.Minute
-		urlMonitor := monitor.NewUrlMonitor() // Le moniteur a besoin du linkRepo et de l'interval
+		monitorInterval := time.Duration(cfg.Monitor.IntervalMinutes) * time.Minute
+		urlMonitor := monitor.NewUrlMonitor(linkRepo, monitorInterval) // Le moniteur a besoin du linkRepo et de l'interval
 
 		// TODO Lancez le moniteur dans sa propre goroutine.
+		go urlMonitor.Start()
 
 		log.Printf("Moniteur d'URLs démarré avec un intervalle de %v.", monitorInterval)
 
@@ -84,8 +97,14 @@ puis lance le serveur HTTP.`,
 
 		// Gére l'arrêt propre du serveur (graceful shutdown).
 		// TODO Créez un channel pour les signaux OS (SIGINT, SIGTERM), bufferisé à 1.
-		quit :=
-			signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM) // Attendre Ctrl+C ou signal d'arrêt
+		go func() {
+			log.Printf("Démarrage du serveur HTTP sur le port %d...", cfg.Server.Port)
+			if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+				log.Fatalf("Erreur lors du démarrage du serveur HTTP : %v", err)
+			}
+		}()
+		quit := make(chan os.Signal, 1)
+		signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM) // Attendre Ctrl+C ou signal d'arrêt
 
 		// Bloquer jusqu'à ce qu'un signal d'arrêt soit reçu.
 		<-quit
@@ -101,4 +120,5 @@ puis lance le serveur HTTP.`,
 
 func init() {
 	// TODO : ajouter la commande
+	cmd2.RootCmd.AddCommand(RunServerCmd)
 }

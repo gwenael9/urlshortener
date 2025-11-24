@@ -9,15 +9,14 @@ package models
 // CreateAt : Horodatage de la créatino du lien
 
 import (
-    "time"
-    "gorm.io/gorm"
+	"time"
 )
 
 type Link struct {
-    ID        uint           `gorm:"primaryKey"`
-    LongURL   string         `gorm:"not null"`
-    ShortCode string         `gorm:"uniqueIndex;size:6"`
-    CreatedAt time.Time
-    UpdatedAt time.Time
-    Clicks    []Click        `gorm:"foreignKey:LinkID"`
+	ID        uint   `gorm:"primaryKey"`
+	LongURL   string `gorm:"not null"`
+	ShortCode string `gorm:"uniqueIndex;size:6"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	Clicks    []Click `gorm:"foreignKey:LinkID"`
 }

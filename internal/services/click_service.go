@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/axellelanca/urlshortener/internal/models"
-	"github.com/axellelanca/urlshortener/internal/repository" 
+	"github.com/axellelanca/urlshortener/internal/repository"
 )
 
 // TODO : créer la struct
@@ -12,9 +12,8 @@ import (
 // Elle est juste composer de clickRepo qui est de type ClickRepository
 
 type ClickService struct {
-	clickRepo ClickRepository
+	clickRepo repository.ClickRepository
 }
-
 
 // NewClickService crée et retourne une nouvelle instance de ClickService.
 // C'est la fonction recommandée pour obtenir un service, assurant que toutes ses dépendances sont injectées.
@@ -44,11 +43,10 @@ func (s *ClickService) RecordClick(click *models.Click) error {
 func (s *ClickService) GetClicksCountByLinkID(linkID uint) (int, error) {
 	// TODO 2: Appeler le ClickRepository (CountclicksByLinkID) pour compter les clics par LinkID.
 
-	 count , err := s.clickRepo.CountClicksByLinkID(linkID); 
-	if err !=nil{
+	count, err := s.clickRepo.CountClicksByLinkID(linkID)
+	if err != nil {
 
-		return 0 , fmt.Errorf("failed to record click : %w , err")
+		return 0, fmt.Errorf("failed to record clicks: %w", err)
 	}
 	return count, nil
 }
-
