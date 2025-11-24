@@ -250,7 +250,7 @@ Merci à toutes les personnes qui ont contribué à ce projet ! 🎉
   <tr>
     <td align="center">
       <a href="https://github.com/gwenael9">
-        <sub><b>Gwenael GEHO</b></sub>
+        <sub><b>Gwenael Guého</b></sub>
       </a>
     </td>
     <td align="center">
