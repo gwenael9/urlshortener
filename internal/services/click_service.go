@@ -12,7 +12,7 @@ import (
 // Elle est juste composer de clickRepo qui est de type ClickRepository
 
 type ClickService struct {
-	clickRepo ClickRepository
+	clickRepo repository.ClickRepository
 }
 
 
