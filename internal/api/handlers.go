@@ -79,7 +79,7 @@ func RedirectHandler(linkService *services.LinkService) gin.HandlerFunc {
         clickEvent := models.ClickEvent{
             LinkID:    link.ID,
             Timestamp: time.Now(),
-            IP:        c.ClientIP(),
+            IPAddress:        c.ClientIP(),
             UserAgent: c.Request.UserAgent(),
         }
 
