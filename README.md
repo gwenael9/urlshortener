@@ -242,27 +242,23 @@ Ctrl + C
 
 Tu verras des logs confirmant l'arrêt propre du serveur.
 
-## Barème de Notation (/20)
+### Contributeurs
 
-### 1. Robustesse Technique & Fonctionnelle (12 points)
+Merci à toutes les personnes qui ont contribué à ce projet ! 🎉
 
-- 1 point : Le projet se lance via ./url-shortener run-server.
-- 4 points : Implémentation correcte de la redirection non-bloquante (GET /{shortCode}) avec utilisation efficace des goroutines et channels pour les analytics.
-- 2 points : Le moniteur d'URLs fonctionne correctement, vérifie les URLs périodiquement et génère des notifications logiques.
-- 3 points : Toutes les APIs REST et commandes CLI obligatoires (create, stats, migrate) sont fonctionnelles et robustes.
-- 2 points : Gestion des erreurs pertinentes.
-
-### 2. Qualité du Code & Documentation (2 points)
-
-- 2 points : Code propre, lisible, **bien commenté** et code respectant les conventions Go vu en cours, et README pertinent.
-- 2 points : Organisation des commits Git avec des messages clairs et pertinents.
-
-### 3. Entretien Technique (4 points)
-
-- 2 points : En Groupe : Votre capacité à expliquer et à défendre votre code lors d'un entretien individuel/en groupe. Cela inclut la compréhension de l'architecture, l'explication du fonctionnement asynchrone (workers, moniteur), et votre capacité à répondre aux questions techniques sur votre code. Vous devrez être capables de naviguer dans votre projet et de justifier vos choix.
-- 2 points : Questions individuelles
-
-### 4. Points faciles
-
-- 1 point si votre code compile
-- 1 point si vous faites des erreurs personnalisées
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/gwenael9">
+        <img src="https://avatars.githubusercontent.com/u/gwenael9?size=100" width="100;" alt="Axelle Lanca"/><br>
+        <sub><b>Axelle Lanca</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/UN_AUTRE_CONTRIB">
+        <img src="https://avatars.githubusercontent.com/u/ID_AUTRE_CONTRIB?size=100" width="100;" alt="Nom Contrib"/><br>
+        <sub><b>Nom Contrib</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
