@@ -9,18 +9,15 @@ import (
 	cmd2 "github.com/axellelanca/urlshortener/cmd"
 	"github.com/axellelanca/urlshortener/internal/repository"
 	"github.com/axellelanca/urlshortener/internal/services"
+	"github.com/glebarez/sqlite"
 	"github.com/spf13/cobra"
-	"gorm.io/driver/sqlite"
+
+	// "gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 // TODO : Faire une variable longURLFlag qui stockera la valeur du flag --url
 var longURLFlag string
-
-var RootCmd = &cobra.Command{
-	Use:   "url-shortener",
-	Short: "Outil CLI pour raccourcir des URLs et consulter leurs statistiques.",
-}
 
 // CreateCmd représente la commande 'create'
 var CreateCmd = &cobra.Command{
@@ -94,5 +91,6 @@ func init() {
 	CreateCmd.MarkFlagRequired("url")
 
 	// TODO : Ajouter la commande à RootCmd
-	RootCmd.AddCommand(CreateCmd)
+	// RootCmd.AddCommand(CreateCmd)
+	cmd2.RootCmd.AddCommand(CreateCmd)
 }

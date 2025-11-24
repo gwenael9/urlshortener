@@ -9,14 +9,14 @@ import (
 	"github.com/axellelanca/urlshortener/internal/repository"
 	"github.com/axellelanca/urlshortener/internal/services"
 	"github.com/spf13/cobra"
+
+	// "gorm.io/driver/sqlite"
+	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
-	"gorm.io/driver/sqlite"
 )
 
 // TODO : variable shortCodeFlag qui stockera la valeur du flag --code
 var shortCodeFlag string
-
-
 
 // StatsCmd représente la commande 'stats'
 var StatsCmd = &cobra.Command{
@@ -89,5 +89,5 @@ func init() {
 	StatsCmd.MarkFlagRequired("code")
 
 	// TODO : Ajouter la commande à RootCmd
-	RootCmd.AddCommand(StatsCmd)
+	cmd2.RootCmd.AddCommand(StatsCmd)
 }

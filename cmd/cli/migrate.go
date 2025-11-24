@@ -8,7 +8,9 @@ import (
 	cmd2 "github.com/axellelanca/urlshortener/cmd"
 	"github.com/axellelanca/urlshortener/internal/models"
 	"github.com/spf13/cobra"
-	"gorm.io/driver/sqlite"
+
+	// "gorm.io/driver/sqlite"
+	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -58,5 +60,5 @@ basées sur les modèles Go.`,
 }
 
 func init() {
-	RootCmd.AddCommand(MigrateCmd)
+	cmd2.RootCmd.AddCommand(MigrateCmd)
 }
