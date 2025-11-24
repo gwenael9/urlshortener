@@ -49,6 +49,15 @@ func CreateShortLinkHandler(linkService *services.LinkService) gin.HandlerFunc {
             return
         }
 
+        // Validation de la longueur de l'URL
+        if len(req.LongURL) > 2048 {
+            c.JSON(http.StatusBadRequest, gin.H{
+                "error":   "Invalid URL",
+                "message": "URL is too long (maximum 2048 characters)",
+            })
+            return
+        }
+
         link, err := linkService.CreateLink(req.LongURL)
         if err != nil {
             log.Printf("Error creating link: %v", err)
@@ -63,6 +72,7 @@ func CreateShortLinkHandler(linkService *services.LinkService) gin.HandlerFunc {
             "short_code":     link.ShortCode,
             "long_url":       link.LongURL,
             "full_short_url": "http://localhost:8080/" + link.ShortCode,
+            "created_at":     link.CreatedAt,
         })
     }
 }
@@ -148,9 +158,10 @@ func GetLinkStatsHandler(linkService *services.LinkService) gin.HandlerFunc {
         }
 
         c.JSON(http.StatusOK, gin.H{
-            "short_code":  link.ShortCode,
+            "short_code":   link.ShortCode,
             "long_url":    link.LongURL,
             "total_clicks": totalClicks,
+            "created_at":   link.CreatedAt,
         })
     }
 }
