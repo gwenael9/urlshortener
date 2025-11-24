@@ -19,7 +19,7 @@ type ClickEvent struct {
 	LinkID    uint
 	Timestamp time.Time
 	UserAgent string
-	IP        string
+	IPAddress string
 }
 // ClickEvent représente un événement de clic brut, destiné à être passé via un channel
 // Ce n'est pas un modèle GORM direct.
