@@ -250,14 +250,22 @@ Merci à toutes les personnes qui ont contribué à ce projet ! 🎉
   <tr>
     <td align="center">
       <a href="https://github.com/gwenael9">
-        <img src="https://avatars.githubusercontent.com/u/gwenael9?size=100" width="100;" alt="Axelle Lanca"/><br>
-        <sub><b>Axelle Lanca</b></sub>
+        <sub><b>Gwenael GEHO</b></sub>
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/UN_AUTRE_CONTRIB">
-        <img src="https://avatars.githubusercontent.com/u/ID_AUTRE_CONTRIB?size=100" width="100;" alt="Nom Contrib"/><br>
-        <sub><b>Nom Contrib</b></sub>
+      <a href="https://github.com/VoutsaStevie">
+        <sub><b>Voutsa Stevie</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/norab0">
+        <sub><b>Nora</b></sub> iimAtomic
+      </a>
+    </td>
+      <td align="center">
+      <a href="https://github.com/iimAtomic">
+        <sub><b>VEGBA Lux</b></sub> 
       </a>
     </td>
   </tr>
