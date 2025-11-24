@@ -24,6 +24,12 @@ type Config struct {
 	Monitor struct {
 		IntervalMinutes int `mapstructure:"interval_minutes"`
 	} `mapstructure:"monitor"`
+	Workers struct {
+		Clicks struct {
+			NumberOfWorkers   int `mapstructure:"number_of_workers"`
+			ChannelBufferSize int `mapstructure:"channel_buffer_size"`
+		} `mapstructure:"clicks"`
+	} `mapstructure:"workers"`
 }
 
 // LoadConfig charge la configuration de l'application en utilisant Viper.

@@ -15,7 +15,6 @@ type ClickService struct {
 	clickRepo repository.ClickRepository
 }
 
-
 // NewClickService crée et retourne une nouvelle instance de ClickService.
 // C'est la fonction recommandée pour obtenir un service, assurant que toutes ses dépendances sont injectées.
 func NewClickService(clickRepo repository.ClickRepository) *ClickService {
@@ -46,8 +45,12 @@ func (s *ClickService) GetClicksCountByLinkID(linkID uint) (int, error) {
 
 	count, err := s.clickRepo.CountClicksByLinkID(linkID)
 	if err != nil {
+<<<<<<< HEAD
 		return 0, fmt.Errorf("failed to get clicks count: %w", err)
+=======
+
+		return 0, fmt.Errorf("failed to record clicks: %w", err)
+>>>>>>> ff5c45fcd09a9a442a39527d9281710dbc87904e
 	}
 	return count, nil
 }
-
