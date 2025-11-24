@@ -260,7 +260,7 @@ Merci à toutes les personnes qui ont contribué à ce projet ! 🎉
     </td>
     <td align="center">
       <a href="https://github.com/norab0">
-        <sub><b>Nora</b></sub> iimAtomic
+        <sub><b>Nora</b></sub>
       </a>
     </td>
       <td align="center">
